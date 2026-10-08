@@ -4,6 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.melvunx.envirominereforgedmod.client.StatsHud;
 import net.melvunx.envirominereforgedmod.entity.EntityModComponents;
 import net.melvunx.envirominereforgedmod.network.DrinkWaterPayload;
 import net.melvunx.envirominereforgedmod.thirst.ThirstRules;
@@ -19,7 +20,7 @@ public class EnviromineReforgedClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        HudRenderCallback.EVENT.register(this::onHudRender);
+        HudRenderCallback.EVENT.register(StatsHud::render);
         ClientTickEvents.END_CLIENT_TICK.register(this::onClientTick);
     }
 
@@ -38,22 +39,5 @@ public class EnviromineReforgedClient implements ClientModInitializer {
         ClientPlayNetworking.send(new DrinkWaterPayload());
         player.swingHand(Hand.MAIN_HAND);
         this.drinkCooldown = ThirstRules.DRINK_COOLDOWN_TICKS;
-    }
-
-    private void onHudRender(DrawContext drawContext, RenderTickCounter tickCounter) {
-        MinecraftClient client = MinecraftClient.getInstance();
-
-        if (client.player == null || client.player.isSpectator() || client.player.isCreative()
-                || client.options.hudHidden) {
-            return;
-        }
-
-        int thirstValue = EntityModComponents.THIRST.get(client.player).getThirst();
-
-        int x = client.getWindow().getScaledWidth() / 2 + 10;
-        // h-39 = faim, h-49 = bulles d'air, donc h-59 pour ne rien recouvrir
-        int y = client.getWindow().getScaledHeight() - 59;
-
-        drawContext.drawText(client.textRenderer, "Soif: " + thirstValue + "/20", x, y, 0x33B5E5, true);
     }
 }
