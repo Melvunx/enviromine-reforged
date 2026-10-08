@@ -4,11 +4,13 @@ plugins {
 }
 
 repositories {
-	// Add repositories to retrieve artifacts from in here.
-	// You should only use this when depending on other mods because
-	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
-	// for more information about repositories.
+
+	// Repository Ladysnake for Cardinal Components API
+
+	maven {
+		name = "Ladysnake Mods"
+		url = "https://maven.ladysnake.org/releases"
+	}
 }
 
 fabricApi {
@@ -26,6 +28,13 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+	// Cardinal Components API
+	modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-base:6.1.1"
+	modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:6.1.1"
+
+	include "org.ladysnake.cardinal-components-api:cardinal-components-base:6.1.1"
+	include "org.ladysnake.cardinal-components-api:cardinal-components-entity:6.1.1"
 }
 
 processResources {

@@ -23,6 +23,9 @@
 		],
 		"client": [
 			"net.melvunx.envirominereforgedmod.EnviromineReforgedClient"
+		],
+		"cardinal-components": [
+			"net.melvunx.envirominereforgedmod.entity.EntityModComponents"
 		]
 	},
 	"mixins": [
@@ -32,6 +35,8 @@
 		"fabricloader": ">=0.19.5",
 		"minecraft": "~1.21.1",
 		"java": ">=21",
-		"fabric-api": "*"
+		"fabric-api": "*",
+		"cardinal-components-base": ">=6.1.1",
+		"cardinal-components-entity": ">=6.1.1"
 	}
 }
