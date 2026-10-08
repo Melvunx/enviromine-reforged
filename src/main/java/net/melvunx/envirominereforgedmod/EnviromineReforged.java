@@ -1,12 +1,8 @@
 package net.melvunx.envirominereforgedmod;
 
 import net.fabricmc.api.ModInitializer;
-
-import net.melvunx.envirominereforgedmod.event.DrinkWaterHandler;
-import net.melvunx.envirominereforgedmod.event.PlayerThirstTickHandler;
-import net.melvunx.envirominereforgedmod.event.WaterBlockInteractHandler;
+import net.melvunx.envirominereforgedmod.network.ModNetworking;
 import net.minecraft.util.Identifier;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,12 +13,11 @@ public class EnviromineReforged implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		LOGGER.info(MOD_ID + " by " + AUTHOR);
+		LOGGER.info("{} by {}", MOD_ID, AUTHOR);
 
-		// Thrist
-		PlayerThirstTickHandler.register();
-		DrinkWaterHandler.register();
-		WaterBlockInteractHandler.register();
+		// La logique de la soif vit dans le composant CCA (PlayerThirst#serverTick)
+		// et dans le mixin PotionItemMixin : il ne reste que le réseau à enregistrer.
+		ModNetworking.register();
 	}
 
 	public static Identifier id(String path) {

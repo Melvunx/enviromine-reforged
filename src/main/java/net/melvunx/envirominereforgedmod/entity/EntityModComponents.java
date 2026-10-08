@@ -16,10 +16,8 @@ public class EntityModComponents implements EntityComponentInitializer {
 
     @Override
     public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
-        registry.registerForPlayers(
-                THIRST,
-                PlayerThirst::new,
-                RespawnCopyStrategy.ALWAYS_COPY
-        );
+        // LOSSLESS_ONLY : conservé au retour de l'End, mais remis à zéro à la mort (comme la faim).
+        // (vérifie la Javadoc de RespawnCopyStrategy dans ton IDE si le nom diffère)
+        registry.registerForPlayers(THIRST, PlayerThirst::new, RespawnCopyStrategy.LOSSLESS_ONLY);
     }
 }

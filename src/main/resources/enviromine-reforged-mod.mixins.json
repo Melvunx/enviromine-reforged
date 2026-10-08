@@ -3,7 +3,7 @@
 	"package": "net.melvunx.envirominereforgedmod.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ExampleMixin"
+		"PotionItemMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
