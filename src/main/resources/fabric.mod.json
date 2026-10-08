@@ -1,0 +1,37 @@
+{
+	"schemaVersion": 1,
+	"id": "enviromine-reforged-mod",
+	"version": "${version}",
+	"name": "Enviromine Reforged",
+	"description": "Enviromine Reforged is my personal remake of the mod Enviromine !",
+	"authors": [
+		"Melvunx"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/Melvunx/enviromine-reforged"
+	},
+	"license": "MIT",
+	"icon": "assets/enviromine-reforged-mod/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.melvunx.envirominereforgedmod.EnviromineReforged"
+		],
+		"fabric-datagen": [
+			"net.melvunx.envirominereforgedmod.EnviromineReforgedDataGenerator"
+		],
+		"client": [
+			"net.melvunx.envirominereforgedmod.EnviromineReforgedClient"
+		]
+	},
+	"mixins": [
+		"enviromine-reforged-mod.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
