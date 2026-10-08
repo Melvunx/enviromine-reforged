@@ -2,7 +2,9 @@ package net.melvunx.envirominereforgedmod;
 
 import net.fabricmc.api.ModInitializer;
 
-import net.melvunx.envirominereforgedmod.thirst.PlayerThirstTickHandler;
+import net.melvunx.envirominereforgedmod.event.DrinkWaterHandler;
+import net.melvunx.envirominereforgedmod.event.PlayerThirstTickHandler;
+import net.melvunx.envirominereforgedmod.event.WaterBlockInteractHandler;
 import net.minecraft.util.Identifier;
 
 import org.slf4j.Logger;
@@ -17,7 +19,10 @@ public class EnviromineReforged implements ModInitializer {
 	public void onInitialize() {
 		LOGGER.info(MOD_ID + " by " + AUTHOR);
 
+		// Thrist
 		PlayerThirstTickHandler.register();
+		DrinkWaterHandler.register();
+		WaterBlockInteractHandler.register();
 	}
 
 	public static Identifier id(String path) {

@@ -9,7 +9,7 @@ repositories {
 
 	maven {
 		name = "Ladysnake Mods"
-		url = "https://maven.ladysnake.org/releases"
+		url = 'https://maven.ladysnake.org/releases'
 	}
 }
 
@@ -30,11 +30,11 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
 	// Cardinal Components API
-	modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-base:6.1.1"
-	modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:6.1.1"
+	modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}"
+	modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
 
-	include "org.ladysnake.cardinal-components-api:cardinal-components-base:6.1.1"
-	include "org.ladysnake.cardinal-components-api:cardinal-components-entity:6.1.1"
+	include "org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}"
+	include "org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
 }
 
 processResources {

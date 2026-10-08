@@ -1,4 +1,4 @@
-package net.melvunx.envirominereforgedmod.thirst;
+package net.melvunx.envirominereforgedmod.event;
 
 import net.melvunx.envirominereforgedmod.entity.EntityModComponents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -11,12 +11,11 @@ public class PlayerThirstTickHandler {
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             tickCounter++;
 
-            // Exécute la logique toutes les 5 secondes (100 ticks)
+            // Every 100 ticks
             if (tickCounter >= 100) {
                 tickCounter = 0;
 
                 for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
-                    // Ne diminue pas si le joueur est en Créatif ou Spectateur
                     if (!player.isCreative() && !player.isSpectator()) {
                         EntityModComponents.THIRST.get(player).addThirst(-1);
                     }
