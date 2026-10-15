@@ -31,7 +31,8 @@
 	"custom": {
 		"cardinal-components": [
 			"enviromine-reforged-mod:thirst",
-			"enviromine-reforged-mod:oxygen"
+			"enviromine-reforged-mod:oxygen",
+			"enviromine-reforged-mod:body_temperature"
 		]
 	},
 	"mixins": [
