@@ -1,27 +1,23 @@
 package net.melvunx.envirominereforgedmod;
 
 import net.fabricmc.api.ModInitializer;
-
+import net.melvunx.envirominereforgedmod.network.ModNetworking;
 import net.minecraft.util.Identifier;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class EnviromineReforged implements ModInitializer {
 	public static final String MOD_ID = "enviromine-reforged-mod";
-
-	// This logger is used to write text to the console and the log file.
-	// It is considered best practice to use your mod id as the logger's name.
-	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+	public static final String AUTHOR = "melvunx";
 
 	@Override
 	public void onInitialize() {
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
+		LOGGER.info("{} by {}", MOD_ID, AUTHOR);
 
-		LOGGER.info("Hello Fabric world!");
+		// La logique de la soif vit dans le composant CCA (PlayerThirst#serverTick)
+		// et dans le mixin PotionItemMixin : il ne reste que le réseau à enregistrer.
+		ModNetworking.register();
 	}
 
 	public static Identifier id(String path) {
