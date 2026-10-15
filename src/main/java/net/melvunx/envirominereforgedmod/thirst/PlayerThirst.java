@@ -61,9 +61,10 @@ public class PlayerThirst implements Thirst {
             return;
         }
 
-        // Le biome change rarement : inutile de le relire 20 fois par seconde.
+        // La température corporelle varie lentement : on relit le multiplicateur 1 fois par seconde.
         if (this.player.age % 20 == 0) {
-            this.environmentMultiplier = ThirstRules.environmentMultiplier(this.player);
+            float bodyTemperature = EntityModComponents.BODY_TEMPERATURE.get(this.player).getTemperature();
+            this.environmentMultiplier = ThirstRules.temperatureMultiplier(bodyTemperature);
         }
 
         this.exhaustion += ThirstRules.exhaustionPerTick(this.player, this.environmentMultiplier);

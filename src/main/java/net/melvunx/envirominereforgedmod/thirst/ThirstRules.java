@@ -1,14 +1,11 @@
 package net.melvunx.envirominereforgedmod.thirst;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
 
 /**
- * Toutes les règles et constantes d'équilibrage au même endroit.
+ * Toutes les règles et constantes d'équilibrage de la soif au même endroit.
  * Ce sont des fonctions "pures" : faciles à tester et à ajuster.
- * Plus tard : lire ces valeurs depuis un fichier de config.
  */
 public final class ThirstRules {
     private ThirstRules() {}
@@ -16,7 +13,7 @@ public final class ThirstRules {
     // --- Mécanique d'épuisement (même idée que la faim) ---
     /** Quand l'épuisement atteint ce seuil, on perd 1 point de soif. */
     public static final float EXHAUSTION_THRESHOLD = 4.0f;
-    /** Au repos en climat tempéré : 1 point de soif toutes les 240 s (20 pts ≈ 80 min). */
+    /** Au repos à température normale : 1 point de soif toutes les 240 s (20 pts ≈ 80 min). */
     public static final float BASE_EXHAUSTION_PER_TICK = EXHAUSTION_THRESHOLD / (240f * 20f);
 
     // --- Boire ---
@@ -27,8 +24,8 @@ public final class ThirstRules {
     // --- Déshydratation totale ---
     public static final int DAMAGE_INTERVAL_TICKS = 80;
 
-    /** Épuisement gagné ce tick, selon l'activité et l'environnement. */
-    public static float exhaustionPerTick(PlayerEntity player, float environmentMultiplier) {
+    /** Épuisement gagné ce tick, selon l'activité et la température corporelle. */
+    public static float exhaustionPerTick(PlayerEntity player, float temperatureMultiplier) {
         float rate = BASE_EXHAUSTION_PER_TICK;
 
         if (player.isSwimming()) {
@@ -36,32 +33,22 @@ public final class ThirstRules {
         } else if (player.isSprinting()) {
             rate *= 3.0f;
         }
-        return rate * environmentMultiplier;
+        return rate * temperatureMultiplier;
     }
 
     /**
-     * Multiplicateur lié à l'environnement.
-     * Pour l'instant : température du biome + dimension + pluie.
-     * Quand tu auras la stat "température corporelle", c'est CETTE méthode
-     * que tu remplaceras par une lecture de la température du joueur.
+     * Multiplicateur de soif selon la température du CORPS (et non plus du biome :
+     * le biome, l'heure, le feu, l'eau... passent tous par la température corporelle).
+     *   35 °C ou moins -> x0.8 (on transpire moins)
+     *   37 °C          -> x1.0
+     *   38 °C          -> x1.75
+     *   39 °C          -> x2.5
+     *   39.7 °C et +   -> x3.0 (plafond)
      */
-    public static float environmentMultiplier(PlayerEntity player) {
-        World world = player.getWorld();
-
-        if (world.getRegistryKey() == World.NETHER) {
-            return 2.5f;
+    public static float temperatureMultiplier(float bodyTemperature) {
+        if (bodyTemperature <= 37.0f) {
+            return MathHelper.clamp(0.8f + (bodyTemperature - 35.0f) * 0.1f, 0.8f, 1.0f);
         }
-
-        BlockPos pos = player.getBlockPos();
-        // Températures vanilla : neige ~0.0, plaine 0.8, jungle 0.95, désert/savane 2.0
-        float biomeTemp = world.getBiome(pos).value().getTemperature();
-
-        // 0.0 -> x0.5 | 0.8 -> x1.0 | 2.0 -> x1.75
-        float multiplier = MathHelper.clamp(0.5f + biomeTemp * 0.625f, 0.5f, 2.0f);
-
-        if (world.hasRain(pos)) {
-            multiplier *= 0.8f;
-        }
-        return multiplier;
+        return MathHelper.clamp(1.0f + (bodyTemperature - 37.0f) * 0.75f, 1.0f, 3.0f);
     }
 }
